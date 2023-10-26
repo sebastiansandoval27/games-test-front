@@ -3,13 +3,19 @@ import { GamesAPI } from '../api/GamesAPI'
 import { Game, Games } from '../interfaces/Game.interface'
 import { parseISO } from 'date-fns'
 import { toast } from 'react-hot-toast'
+import { DateTime } from 'luxon'
 
 interface ReturnProps {
   games: Game[]
+  getGames: () => void
   addGame: (game: Game) => void
   updateGame: (game: Game) => void
   deleteGame: (game: Game) => void
   isLoading: boolean
+  getGamesByProperty: (
+    property: string,
+    value: string | Date | DateTime
+  ) => void
 }
 
 const useGames = (): ReturnProps => {
@@ -18,7 +24,7 @@ const useGames = (): ReturnProps => {
   const [isLoading, setIsLoading] = useState(true)
 
   const parseDate = (games: Game[]) => {
-    return games.map(game => {
+    return games?.map(game => {
       return {
         ...game,
         date: parseISO(game.date.toString()),
@@ -47,6 +53,27 @@ const useGames = (): ReturnProps => {
       showError('Error loading games')
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const getGamesByProperty = async (
+    property: string,
+    value: string | Date | DateTime
+  ) => {
+    try {
+      const url =
+        property === 'gameType'
+          ? `/games/filter/gametype/${value}`
+          : `/games/filter/${property}?value=${value}`
+      const gamesResponse = await GamesAPI.get<Games>(url)
+      if (gamesResponse.status === 200) {
+        setGames(parseDate(gamesResponse.data?.games) || [])
+      } else {
+        showError('Error loading games')
+      }
+    } catch (error) {
+      console.log(error)
+      showError('Error loading games')
     }
   }
 
@@ -114,6 +141,8 @@ const useGames = (): ReturnProps => {
     updateGame,
     deleteGame,
     isLoading,
+    getGamesByProperty,
+    getGames,
   }
 }
 

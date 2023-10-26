@@ -21,7 +21,7 @@ export const Select = ({
   errorMessage = '',
 }: Props) => {
   return (
-    <div className="my-2 flex flex-col">
+    <div className="my-2 flex flex-col w-full">
       <label className="block text-xs font-bold text-gray-700">{label}</label>
 
       <select

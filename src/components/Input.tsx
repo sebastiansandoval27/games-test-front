@@ -18,7 +18,7 @@ export const Input = ({
   errorMessage = '',
 }: Props) => {
   return (
-    <div className="my-2">
+    <div className="my-2 w-full">
       <label className="block text-xs font-bold text-gray-700">{label}</label>
       <input
         type="text"

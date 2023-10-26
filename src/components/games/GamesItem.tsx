@@ -1,6 +1,7 @@
 import { AiOutlineEdit } from 'react-icons/ai'
 import { FiTrash2 } from 'react-icons/fi'
 import { Game, GameType } from '../../interfaces/Game.interface'
+import { parseDate } from '../../utils/parseDate'
 
 interface Props {
   game: Game
@@ -9,14 +10,6 @@ interface Props {
 }
 
 export const GamesItem = ({ game, onEdit, onDelete }: Props) => {
-  const parseDate = (date: Date) => {
-    const day = date.getDate()
-    const month = date.getMonth() + 1
-    const year = date.getFullYear()
-
-    return `${day}/${month}/${year}`
-  }
-
   return (
     <div className="w-full h-auto flex flex-col max-w-[21.875rem] items-start justify-start p-2 border-2 bg-whiteCustom border-blueCustom mx-auto rounded-md relative">
       <div className="flex justify-start items-start">
@@ -59,7 +52,7 @@ export const GamesItem = ({ game, onEdit, onDelete }: Props) => {
           </div>
           <div className="flex justify-start w-full mt-2 gap-2">
             <span
-              className={`px-2 rounded-md  text-xs text-center flex items-center font-bold
+              className={`px-2 rounded-md  text-xs text-center flex items-center justify-center font-bold
             ${
               game.gameType === GameType.REGULAR_SEASON
                 ? 'bg-cyan-700 font-bold text-white'

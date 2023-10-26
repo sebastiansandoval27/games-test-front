@@ -7,6 +7,7 @@ import { Input } from './Input'
 import { Select } from './Select'
 import { DatePicker } from './DatePicker'
 import { AiFillCloseCircle } from 'react-icons/ai'
+import { parseDate } from '../utils/parseDate'
 
 interface Props {
   gameSelected?: Game
@@ -14,7 +15,7 @@ interface Props {
   onSend: (game: Game) => void
 }
 
-const GameTypeOptions = [
+export const GameTypeOptions = [
   {
     label: 'Regular Season',
     value: 'REGULAR_SEASON',
@@ -62,7 +63,7 @@ export const Modal = ({
       city: gameSelected?.city || '',
       home: gameSelected?.home || '',
       away: gameSelected?.away || '',
-      date: gameSelected?.date || '',
+      date: new Date(parseDate(gameSelected?.date)) || '',
       gameType: gameSelected?.gameType || '',
     },
   })
@@ -74,7 +75,6 @@ export const Modal = ({
   }
 
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-    console.log(data)
     onSend(data as Game)
     closeForm()
   }

@@ -9,11 +9,23 @@ import { FabButton } from './components/FabButton'
 import { Loader } from './components/Loader'
 import { Toaster } from 'react-hot-toast'
 import { ModalConfirm } from './components/ModalConfirm'
+import { FiltersBar } from './components/FiltersBar'
+import { AiFillPlusCircle } from 'react-icons/ai'
+import { BiFilterAlt } from 'react-icons/bi'
 
 function App() {
-  const { games, addGame, updateGame, isLoading, deleteGame } = useGames()
+  const {
+    games,
+    addGame,
+    updateGame,
+    isLoading,
+    deleteGame,
+    getGamesByProperty,
+    getGames,
+  } = useGames()
   const [showModal, setShowModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showFiltersModal, setShowFiltersModal] = useState(false)
   const [gameSelected, setGameSelected] = useState<Game | null>(null)
 
   const onEdit = (game: Game) => {
@@ -36,11 +48,6 @@ function App() {
     }
   }
 
-  /* TODO: 
-    - ADD VALIDATION TO DELETE ITEM
-    - ADD FILTERS
-  */
-
   return (
     <Layout>
       {isLoading ? (
@@ -49,17 +56,30 @@ function App() {
         <>
           <main className="flex flex-col items-center justify-center lg:px-32 pb-20 pt-5">
             <div className="w-full flex justify-center items-center px-2 mt-4">
-              <Gamesgrid
-                games={games}
-                onEdit={(game: Game) => {
-                  setGameSelected(game)
-                  setShowModal(true)
-                }}
-                onDelete={(game: Game) => {
-                  setGameSelected(game)
-                  setShowConfirmModal(true)
-                }}
-              />
+              {games.length > 0 ? (
+                <Gamesgrid
+                  games={games}
+                  onEdit={(game: Game) => {
+                    setGameSelected(game)
+                    setShowModal(true)
+                  }}
+                  onDelete={(game: Game) => {
+                    setGameSelected(game)
+                    setShowConfirmModal(true)
+                  }}
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center">
+                  <p className="text-2xl text-center">No games found</p>
+                  <button
+                    className="w-full mt-2 text-center bg-gray-500 py-2 rounded-lg font-bold text-white"
+                    type="button"
+                    onClick={getGames}
+                  >
+                    Get all
+                  </button>
+                </div>
+              )}
               {showModal && gameSelected && (
                 <Modal
                   gameSelected={gameSelected}
@@ -88,10 +108,23 @@ function App() {
               }}
             />
           )}
+
           <FabButton
-            onClick={() => {
-              setShowModal(true)
-            }}
+            buttons={[
+              {
+                icon: <BiFilterAlt />,
+                onClick: () => {
+                  setShowFiltersModal(true)
+                },
+                bgColor: 'bg-sky-500',
+              },
+              {
+                icon: <AiFillPlusCircle />,
+                onClick: () => {
+                  setShowModal(true)
+                },
+              },
+            ]}
           />
         </>
       )}
@@ -103,6 +136,16 @@ function App() {
           onCancel={() => {
             setShowConfirmModal(false)
             setGameSelected(null)
+          }}
+        />
+      )}
+      {showFiltersModal && (
+        <FiltersBar
+          onClose={() => setShowFiltersModal(false)}
+          onFilter={getGamesByProperty}
+          getAll={() => {
+            getGames()
+            setShowFiltersModal(false)
           }}
         />
       )}
