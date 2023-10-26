@@ -8,10 +8,12 @@ import { Game } from './interfaces/Game.interface'
 import { FabButton } from './components/FabButton'
 import { Loader } from './components/Loader'
 import { Toaster } from 'react-hot-toast'
+import { ModalConfirm } from './components/ModalConfirm'
 
 function App() {
   const { games, addGame, updateGame, isLoading, deleteGame } = useGames()
   const [showModal, setShowModal] = useState(false)
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [gameSelected, setGameSelected] = useState<Game | null>(null)
 
   const onEdit = (game: Game) => {
@@ -24,6 +26,14 @@ function App() {
     addGame(game)
     setShowModal(false)
     setGameSelected(null)
+  }
+
+  const onDelete = () => {
+    if (gameSelected) {
+      deleteGame(gameSelected)
+      setShowConfirmModal(false)
+      setGameSelected(null)
+    }
   }
 
   /* TODO: 
@@ -46,9 +56,8 @@ function App() {
                   setShowModal(true)
                 }}
                 onDelete={(game: Game) => {
-                  deleteGame(game)
-                  setShowModal(false)
-                  setGameSelected(null)
+                  setGameSelected(game)
+                  setShowConfirmModal(true)
                 }}
               />
               {showModal && gameSelected && (
@@ -85,6 +94,17 @@ function App() {
             }}
           />
         </>
+      )}
+      {showConfirmModal && (
+        <ModalConfirm
+          onConfirm={onDelete}
+          title={`Are you sure you want to delete this game?`}
+          message={`${gameSelected?.name}`}
+          onCancel={() => {
+            setShowConfirmModal(false)
+            setGameSelected(null)
+          }}
+        />
       )}
       <Toaster />
     </Layout>

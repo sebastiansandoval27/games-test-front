@@ -24,12 +24,18 @@ export const GamesItem = ({ game, onEdit, onDelete }: Props) => {
           className={`image w-14 h-14 flex justify-center items-center rounded-lg 
       ${
         game.gameType === GameType.REGULAR_SEASON
-          ? 'bg-cyan-300'
+          ? 'bg-cyan-700'
           : 'bg-orangeCustom'
       }
       `}
         >
-          <span className="text-4xl font-bold">
+          <span
+            className={`text-4xl font-bold ${
+              game.gameType === GameType.REGULAR_SEASON
+                ? 'text-white'
+                : 'text-black'
+            }`}
+          >
             {game.gameType === GameType.REGULAR_SEASON ? 'R' : 'P'}
           </span>
         </div>
@@ -52,10 +58,18 @@ export const GamesItem = ({ game, onEdit, onDelete }: Props) => {
             </span>
           </div>
           <div className="flex justify-start w-full mt-2 gap-2">
-            <span className="bg-blueCustom px-2 rounded-md text-white text-xs text-center flex items-center">
+            <span
+              className={`px-2 rounded-md  text-xs text-center flex items-center font-bold
+            ${
+              game.gameType === GameType.REGULAR_SEASON
+                ? 'bg-cyan-700 font-bold text-white'
+                : 'bg-orangeCustom text-black'
+            }
+            `}
+            >
               {game.gameType}
             </span>
-            <span className="bg-orangeCustom px-2 rounded-md">
+            <span className="bg-gray-500 text-white px-2 rounded-md">
               {parseDate(game.date)}
             </span>
           </div>

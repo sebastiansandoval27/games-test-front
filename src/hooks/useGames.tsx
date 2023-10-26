@@ -30,6 +30,10 @@ const useGames = (): ReturnProps => {
     toast.error(message)
   }
 
+  const showSuccess = (message: string) => {
+    toast.success(message)
+  }
+
   const getGames = async () => {
     try {
       const gamesResponse = await GamesAPI.get<Games>('/games')
@@ -50,8 +54,9 @@ const useGames = (): ReturnProps => {
     try {
       setIsLoading(true)
       const gameResponse = await GamesAPI.post<Game>('/games', game)
-      if (gameResponse.status === 201) {
+      if (gameResponse.status === 201 || gameResponse.status === 200) {
         getGames()
+        showSuccess('Game added successfully')
       } else {
         showError('Error adding game')
       }
@@ -69,6 +74,7 @@ const useGames = (): ReturnProps => {
       const gameResponse = await GamesAPI.put<Game>(`/games/${game.id}`, game)
       if (gameResponse.status === 200) {
         getGames()
+        showSuccess('Game updated successfully')
       } else {
         showError('Error updating game')
       }
@@ -86,6 +92,7 @@ const useGames = (): ReturnProps => {
       const gameResponse = await GamesAPI.delete<Game>(`/games/${game.id}`)
       if (gameResponse.status === 200) {
         getGames()
+        showSuccess('Game deleted successfully')
       } else {
         showError('Error deleting game')
       }

@@ -80,7 +80,7 @@ export const Modal = ({
   }
 
   return (
-    <div className="w-screen h-screen bg-blackCustom bg-opacity-50 absolute top-0 left-0 z-50 flex justify-center items-center p-4">
+    <div className="w-screen h-screen bg-blackCustom bg-opacity-50 fixed top-0 left-0 z-50 flex justify-center items-center p-4">
       <div className="content p-3 bg-white flex flex-col items-center justify-center w-full max-w-[28.125rem] rounded-lg">
         <span
           className="place-self-end text-3xl cursor-pointer"
