@@ -64,7 +64,7 @@ const useGames = (): ReturnProps => {
       const url =
         property === 'gameType'
           ? `/games/filter/gametype/${value}`
-          : `/games/filter/${property}?value=${value}`
+          : `/games/filter/types/${property}/${value}`
       const gamesResponse = await GamesAPI.get<Games>(url)
       if (gamesResponse.status === 200) {
         setGames(parseDate(gamesResponse.data?.games) || [])

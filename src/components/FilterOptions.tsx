@@ -117,67 +117,33 @@ const FilterOptions = ({ onFilter, close }: Props) => {
     }
   }
 
-  const buttons = [
-    Button(
-      () => {
-        onSelect('name')
-        clearErrors()
-        reset()
-      },
-      changeBgColor('name'),
-      'name'
-    ),
-    Button(
-      () => {
-        onSelect('city')
-        clearErrors()
-        reset()
-      },
-      changeBgColor('city'),
-      'city'
-    ),
-    Button(
-      () => {
-        onSelect('home')
-        clearErrors()
-        reset()
-      },
-      changeBgColor('home'),
-      'home'
-    ),
-    Button(
-      () => {
-        onSelect('away')
-        clearErrors()
-        reset()
-      },
-      changeBgColor('away'),
-      'away'
-    ),
-    Button(
-      () => {
-        onSelect('date')
-        clearErrors()
-        reset()
-      },
-      changeBgColor('date'),
-      'date'
-    ),
-    Button(
-      () => {
-        onSelect('gameType')
-        clearErrors()
-        reset()
-      },
-      changeBgColor('gameType'),
-      'gameType'
-    ),
-  ]
+  const createButtons = (properties: Options[]) => {
+    return properties.map(property => {
+      return Button(
+        () => {
+          onSelect(property)
+          clearErrors()
+          reset()
+        },
+        changeBgColor(property),
+        property
+      )
+    })
+  }
+
+  const properties = [
+    'name',
+    'city',
+    'home',
+    'away',
+    'date',
+    'gameType',
+  ] as Options[]
 
   return (
     <>
       <div className="grid grid-cols-2 items-center justify-center gap-2 w-full">
-        {buttons.map((button, index) => (
+        {createButtons(properties).map((button, index) => (
           <div key={index}>{button}</div>
         ))}
       </div>

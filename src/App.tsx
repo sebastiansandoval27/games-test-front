@@ -54,7 +54,7 @@ function App() {
         <Loader />
       ) : (
         <>
-          <main className="flex flex-col items-center justify-center lg:px-32 pb-20 pt-5">
+          <main className="flex flex-col items-center justify-center lg:px-32 pb-20 pt-5 min-w-[20.5rem]">
             <div className="w-full flex justify-center items-center px-2 mt-4">
               {games.length > 0 ? (
                 <Gamesgrid
@@ -101,6 +101,7 @@ function App() {
               onSend={(game: Game) => {
                 setShowModal(false)
                 onSend(game)
+                setGameSelected(null)
               }}
               onClose={() => {
                 setShowModal(false)
@@ -121,6 +122,7 @@ function App() {
               {
                 icon: <AiFillPlusCircle />,
                 onClick: () => {
+                  setGameSelected(null)
                   setShowModal(true)
                 },
               },

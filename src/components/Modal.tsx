@@ -63,7 +63,9 @@ export const Modal = ({
       city: gameSelected?.city || '',
       home: gameSelected?.home || '',
       away: gameSelected?.away || '',
-      date: new Date(parseDate(gameSelected?.date)) || '',
+      date: gameSelected?.date
+        ? new Date(parseDate(gameSelected?.date))
+        : new Date(),
       gameType: gameSelected?.gameType || '',
     },
   })

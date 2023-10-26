@@ -11,7 +11,11 @@ interface Props {
 
 export const GamesItem = ({ game, onEdit, onDelete }: Props) => {
   return (
-    <div className="w-full h-auto flex flex-col max-w-[21.875rem] items-start justify-start p-2 border-2 bg-whiteCustom border-blueCustom mx-auto rounded-md relative">
+    <div
+      className="w-full h-auto flex flex-col max-w-[21.875rem] items-start justify-start p-2 border-2 bg-whiteCustom border-blueCustom mx-auto rounded-md relative
+    w-min-[20.5rem]
+    "
+    >
       <div className="flex justify-start items-start">
         <div
           className={`image w-14 h-14 flex justify-center items-center rounded-lg 
@@ -48,6 +52,14 @@ export const GamesItem = ({ game, onEdit, onDelete }: Props) => {
             </span>
             <span className="text-blueCustom text-base line-clamp-1 font-bold">
               {game.away}
+            </span>
+          </div>
+          <div className="flex justify-start items-center ">
+            <span className="text-blueCustom text-opacity-70 text-xs">
+              City:
+            </span>
+            <span className="text-blueCustom text-base line-clamp-1 font-bold">
+              {game.city}
             </span>
           </div>
           <div className="flex justify-start w-full mt-2 gap-2">
